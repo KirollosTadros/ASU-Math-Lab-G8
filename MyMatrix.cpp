@@ -232,13 +232,14 @@ MyMatrix MyMatrix::inverse(){
 	float d = this->det();
 	// cout << "got determinant of whole matrix" << endl << endl; //todo remove det
 	try{
-		if(d <= 0){
+		if(d == 0){
 			throw -1;
 		}
 	}
 	catch(...){
 		throw;
 	}
+	d = 1/d;
 	int sign;
 	//actually not a cofactors matrix
 	//because it's multiplied by 1/determinant
