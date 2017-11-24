@@ -69,10 +69,18 @@ if(s[pos+1]!='[')
 {
 cout<<file<<endl;
 
-if(s.length()==4){                              //special case for the equal operator
+if((s.length()==4&&s[3]!='\'')||s.length()==3){                                       //special case for the equal operator
+if(name[findResult(s[0])]==name[findWhere(s[2])]){
+cout<<name[findResult(s[0])]<<"="<<endl;
+
+A[findResult(s[0])].print();
+
+}
+                else{
 A[findResult(s[0])]=A[findWhere(s[2])];
 cout<<name[findResult(s[0])]<<"="<<endl;
 A[findResult(s[0])].print();
+}
 
 }
 
