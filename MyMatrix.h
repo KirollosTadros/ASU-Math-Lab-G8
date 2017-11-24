@@ -35,6 +35,7 @@ class MyMatrix{
 	MyMatrix right_divide(MyMatrix &rhs);
 	MyMatrix operator/(MyMatrix &rhs);
 	void print();
+	void swapRows(int row1, int row2);
 };
 
 
