@@ -229,9 +229,20 @@ float** matrix= new float* [rows];
 				{
 
 
+				if(file.length()==1)
+				{
+				myfile>>file;
+				matrix[0][0]==stof(file);
+				flag=1;
+
+				}
+				else{
+
+
 				flag=1;
 
 				matrix[0][0]=stof(file.substr(1));
+				}
 
 
                 int n=1;
