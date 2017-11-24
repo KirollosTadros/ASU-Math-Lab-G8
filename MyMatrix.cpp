@@ -47,13 +47,13 @@ MyMatrix::MyMatrix(float **Matrix, int rows, int cols)
 }
 MyMatrix::~MyMatrix()
 {
-
+	
 	for(int i=0;i<rows;i++){
 		delete[] Matrix[i];
 	}
 	delete[] Matrix;
 	debug("destr done");
-
+	
 }
 // void MyMatrix::make(float **Mat, int x, int y)
 // { //Function that creates the Matrix
@@ -173,7 +173,7 @@ MyMatrix MyMatrix::operator*(MyMatrix &b){
 			}
 		}
 	}
-
+	
 	//C.empty();
 	MyMatrix C(c, this->rows, b.cols);
 	//free allocated memory
@@ -183,6 +183,7 @@ MyMatrix MyMatrix::operator*(MyMatrix &b){
 	delete[] c;
 	return C;
 }
+
 MyMatrix MyMatrix::operator--(){
 	debug("started --");
 	float **A = this->Matrix;
@@ -254,7 +255,6 @@ MyMatrix MyMatrix::inverse(){
 	return cofactors;
 }
 
-
 MyMatrix::MyMatrix(const MyMatrix &other){
 	debug("copy constr called");
 	rows = other.rows;
@@ -314,35 +314,12 @@ MyMatrix MyMatrix::get_minor_matrix(int row, int col){
 	return result;
 }
 
-float MyMatrix::det(){
-	//todo remove
-	// static int level = 0;
-	// level++;
-	// cout << "level: " << level << endl;
-
-	//todo handle non square matrices
-	if(cols == 2){
-		return Matrix[0][0] * Matrix[1][1] - Matrix[0][1] * Matrix[1][0];
-	}
-	if(cols == 1){
-		return Matrix[0][0];
-	}
-	float result = 0;
-	int sign = 1;
-	for(int j=0; j<cols; j++){
-		// cout << "Getting det of minor for element (" << j << "): " << Matrix[0][j] << " (" << rows << ", " << cols << ")" <<endl; //todo remove det
-		result += sign * Matrix[0][j] * this->get_minor_matrix(1, j+1).det();
-		sign *= -1;
-	}
-	// cout << "DONE" << endl; //todo remove det
-	return result;
-}
-
 MyMatrix MyMatrix::right_divide(MyMatrix &rhs){
 	debug("right_divide called");
 	MyMatrix b = rhs.inverse();
 	return *this * b;
 }
+
 MyMatrix MyMatrix::operator/(MyMatrix &rhs){
 	debug("operator (/) called");
 	MyMatrix inv = rhs.inverse();
@@ -364,3 +341,67 @@ void MyMatrix::print(){
 
 	cout << endl;
 }
+
+float MyMatrix::det(){
+	//calcluate determinant using Gauss elimination
+	//todo: handle non-square matrices
+	if(cols == 2){
+		return Matrix[0][0] * Matrix[1][1] - Matrix[0][1] * Matrix[1][0];
+	}else if(cols == 1){
+		return Matrix[0][0];
+	}else{
+		//copy the matrix because it will be modified
+		MyMatrix d(Matrix, rows, cols);
+		int sign = 1;
+		float multiplier;
+		//for each column except last one...
+		for(int j=0; j<cols-1; j++){
+			//for all elements below the diagonal
+			for(int i=j+1; i<rows; i++){
+				if(d.Matrix[j][j] == 0){
+					//can't use zero as pivot element
+					//find the first non-zero element in same column
+					int row_index = 0; //the row we're looking for can't be zero (row_index >= 2)
+					for(int r=i; r<rows; r++){
+						if(d.Matrix[r][j] != 0){
+							row_index = r;
+							break;
+						}
+					}
+					if(row_index){
+						d.swapRows(j, row_index);
+						//change sign for every row swap
+						sign *= -1;
+					}else{
+						//didn't found a non-zero element,
+						//determinant is zero
+						return 0;
+					}
+				}
+				multiplier = d.Matrix[i][j] / d.Matrix[j][j];
+				//for all elements in the row of the current element
+				for(int k=0; k<cols; k++){
+					d.Matrix[i][k] = d.Matrix[i][k] - d.Matrix[j][k] * multiplier;
+				}
+			}
+		}
+		//determinant = (-1)^number_of_swaps * product of diagonal elements
+		float result = 1;
+		for(int i=0; i<rows; i++){
+			result *= d.Matrix[i][i];
+		}
+		return sign * result;
+	}
+}
+
+void MyMatrix::swapRows(int row1, int row2){
+	//swap row1 with row2
+	//todo: check arguments are in range
+	float tmp;
+	for(int j=0; j<cols; j++){
+		tmp = Matrix[row1][j];
+		Matrix[row1][j] = Matrix[row2][j];
+		Matrix[row2][j] = tmp;
+	}
+}
+
