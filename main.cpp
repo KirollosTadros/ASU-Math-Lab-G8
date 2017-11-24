@@ -307,7 +307,21 @@ matrix[nrows][ncols]=stof(file);
 if(ncols==cols-1)                   //the last element in each row is stuck to ; we need to remove it
 {
 
+if(file[file.length()-1]==';'||file[file.length()-1]==']'){
+if(file[file.length()-2]==']'){
+matrix[nrows][ncols]=stof(file.substr(0,file.length()-2));
+}
+else
 matrix[nrows][ncols]=stof(file.substr(0,file.length()-1));
+
+}
+else
+{
+
+matrix[nrows][ncols]=stof(file);
+myfile>>file;
+
+}
 
 
 
