@@ -249,7 +249,7 @@ float** matrix= new float* [rows];
 				if(file[1]=='\0')
 				{
 				myfile>>file;
-				matrix[0][0]==stof(file);
+				matrix[0][0]=stof(file);
 				flag=1;
 
 				}
