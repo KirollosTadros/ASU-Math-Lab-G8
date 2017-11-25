@@ -17,22 +17,22 @@ int main(int argc, char* argv[])
 	//handle wrong command line arguments
 	//usage: ./matrix <filename>
 	//example: ./matrix bigexample.m
-	/*if(argc < 2){
+	if(argc < 2){
 		cout << "Wrong number of arguments" << endl;
 		cout << "Usage: matrix <filename>" << endl;
 		return 1;
-	}*/
+	}
 
 	ifstream files;
-	/*try{
+	try{
 		files.open(argv[1]);
 	}
 	catch(...){
 		cout << "Error opening file" << endl;
 		return 1;
-	*/
+	}
 
-string path ="example1.m";
+string path =argv[1];
 	name = new char[n];
 matrixName(path);                       //Finds matrices names from file and adds them to name array
 
