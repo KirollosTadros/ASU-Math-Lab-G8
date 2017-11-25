@@ -32,6 +32,7 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
+
 string path =argv[1];
 	name = new char[n];
 matrixName(path);                       //Finds matrices names from file and adds them to name array
@@ -68,6 +69,7 @@ int pos=s.find("=");
 if(s[pos+1]!='[')
 {
 cout<<file<<endl;
+
 
 if((s.length()==4&&s[3]!='\'')||s.length()==3){                                       //special case for the equal operator
 if(name[findResult(s[0])]==name[findWhere(s[2])]){
@@ -115,7 +117,9 @@ A[r].print();
 
  A[findResult(s[0])]=A[findWhere(s[2])]-A[findWhere(s[4])];
 cout<<name[findResult(s[0])]<<"="<<endl;
-A[findResult(s[0])].print();} break;
+A[findResult(s[0])].print();
+}
+break;
 
 
  case '*' : {
@@ -127,9 +131,14 @@ A[findResult(s[0])].print();
 
 
  case '/' : {
-
+try{
 
  A[findResult(s[0])]=A[findWhere(s[2])]/A[findWhere(s[4])];
+ }
+ catch(int e){
+ cout<<"error the detrminant is equal zero"<<endl<<endl;
+ break;
+ }
 cout<<name[findResult(s[0])]<<"="<<endl;
 A[findResult(s[0])].print();
 
@@ -209,6 +218,7 @@ MyMatrix findMatrix (char c, string path){
 
 string file;
 	int matrixFlag=0;
+	int firstflag=0;
 
 	int rows=1000, cols=1000;
 float** matrix= new float* [rows];
@@ -230,7 +240,7 @@ float** matrix= new float* [rows];
 		matrixFlag=1;
 		while(myfile>>file){
 
-                    //findinf first row
+                    //finding first row
 			for(int i=0;file[i]!='\0';i++){
 				if(file[i]=='[')
 
@@ -257,36 +267,46 @@ float** matrix= new float* [rows];
                 while(myfile>>file){
 
 
+
 				for(int j=0;file[j]!='\0';j++){
 				if(file[j]==';')
 				{
 
+				if(file.length()==1)
+				myflag=2;
+				else{
+				if(file[0]==';'){
+				matrix [1][0]=stof(file.substr(1));
+				firstflag=1;
+				}
 
 				myflag=1;
 
 
 				matrix[0][n]=stof(file.substr(0,file.length()-1));
+				}
 
 				}
 				}
-				if(myflag!=1){
+				if(myflag==0){
 
 
 
 				matrix[0][n]=stof(file);
 
 
-
-
-
 				n++;
 				}
 
-				else
+				else if(myflag==1)
 				{
 				cols=n+1;
 
 
+				break;
+				}
+				if(myflag==2){
+				cols=n;
 				break;
 				}
 				}
@@ -301,13 +321,14 @@ float** matrix= new float* [rows];
 		}
 
 		//first row found and start fidning other rows
-int nrows=1;
+int nrows=1+firstflag;
 int thflag=0;
+
 
 int ncols=0;
 while(myfile>>file)
 {
-
+int semiflag=0;
 
 matrix[nrows][ncols]=stof(file);
 
@@ -325,9 +346,14 @@ matrix[nrows][ncols]=stof(file.substr(0,file.length()-1));
 }
 else
 {
-
 matrix[nrows][ncols]=stof(file);
 myfile>>file;
+if(file[1]!='\0'){
+matrix[nrows+1][0]=stof(file.substr(1));
+nrows++;
+ncols=0;
+semiflag=1;
+}
 
 }
 
@@ -343,9 +369,10 @@ thflag=1;
 
 }
 }
-
+if(semiflag!=1){
 nrows++;
 ncols=-1;
+}
 
 
 }
