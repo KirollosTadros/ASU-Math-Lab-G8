@@ -245,9 +245,8 @@ float** matrix= new float* [rows];
 				if(file[i]=='[')
 
 				{
-
-
-				if(file.length()==1)
+				file=file+'\0'
+				if(file[1]=='\0')
 				{
 				myfile>>file;
 				matrix[0][0]==stof(file);
