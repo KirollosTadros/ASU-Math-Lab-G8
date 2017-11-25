@@ -245,7 +245,7 @@ float** matrix= new float* [rows];
 				if(file[i]=='[')
 
 				{
-				file=file+'\0'
+				file=file+'\0';
 				if(file[1]=='\0')
 				{
 				myfile>>file;
