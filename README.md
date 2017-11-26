@@ -1,4 +1,4 @@
-# ASUMathLabG8
+# AsuMathLabG8
 
 
 it is a c++ program that reads matrices froma a file and make operations on it 
