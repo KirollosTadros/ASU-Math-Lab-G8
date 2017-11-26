@@ -3,9 +3,9 @@ CFLAGS = -std=c++0x
 LDFLAGS =
 
 
-all: matrix.out
+all: matrix
 
-matrix.out: MyMatrix.o main.o
+matrix: MyMatrix.o main.o
 	$(CC) $(LDFLAGS) $^ -o $@
 
 MyMatrix.o: MyMatrix.cpp MyMatrix.h
