@@ -7,7 +7,7 @@ int Variable::unnamed = 1;
 Variable::Variable(std::string name, VarType type) : name(name), type(type) {
 	if(name.length() == 0){
 		std::ostringstream ss;
-		ss << "var" << unnamed++;
+		ss << "tempVar" << unnamed++;
 		this->name = ss.str();
 	}
 };

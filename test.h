@@ -9,6 +9,7 @@ void print(Matrix const& matrix, char const* label);
 void print(double value, char const* label);
 void test_matrix();
 void test_variable();
+void test_parser();
 }
 
 #endif //TEST_H

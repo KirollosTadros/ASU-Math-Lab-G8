@@ -11,56 +11,70 @@ using namespace std;
 
 int main(int argc, char* argv[]){
 
+	Parser parser;
+
 	/*
-	 * Process the program arguments
+	 * Adding variables
 	 */
 
-	string filename = "";
-	//interactive mode:
-	//user can input commands from console, after
-	//the whole input file is parsed, or without
-	//parsing an input file first, if no filename
-	//is given
-	bool interactiveMode = false;
-	if(argc < 2 || argc > 3){
-		cout << "Wrong number of arguments to program" << endl;
-		cout << "Usage: " << argv[0] << " <filename> [-i]" << endl;
-		return -1;
-	}else{
-		for(int i=1; i<argc; ++i){
-			if((string) argv[i] == "-i"){
-				interactiveMode = true;
-			}else{
-				filename = argv[i];
-			}
+	//adding a number variable called x
+	parser.addVar(new Number(500, "x"));
+
+	//adding a number variable called y
+	parser.addVar(new Number(-3, "y"));
+
+	//adding a matrix variable called A
+	Variable* some_variable = new Matrix(3, 3, "A");
+
+	//cast (Variable*) to (Matrix*) to use matrix methods
+	Matrix* tmp = (Matrix*) some_variable;
+
+	//fill matrix with sequential numbers
+	for(int i=0; i<tmp->getRows(); ++i){
+		for(int j=0; j<tmp->getCols(); ++j){
+			tmp->setValue(i, j, i*3+j+1);
 		}
 	}
+	parser.addVar(tmp);
+
 
 	/*
-	 * 	Create Reader object according to
-	 * 	program arguments
+	 * Reading variables
 	 */
 
-	Reader* reader;
-	if(filename.length() == 0){
-		reader = new Reader();
-	}else if(interactiveMode){
-		reader = new Reader(filename, Reader::file_console);
-	}else{
-		reader = new Reader(filename, Reader::file);
+	//get variable y from vector
+	Variable* result = parser.findVar("y");
+
+	//if result is nullptr, then variable with this
+	//name does not exist
+	if(result != nullptr){
+		cout << "The number is:" << endl;
+		cout << *result << endl;
 	}
 
-	/*
-	 * Read and parse
-	 */
-	Parser parser;
-	string inputString;
-	inputString = reader->read();
-	while(inputString != ""){
-		parser.parse(inputString);
-		inputString = reader->read();
+	//get variable A from vector
+	result = parser.findVar("A");
+	//check if not null
+	if(result){
+		//get transpose of matrix,
+		//we know type of A is matrix,
+		//we have to cast it first
+		Matrix* t = (Matrix*) result;
+		*t = t->transpose(); //note the *
+
+		//print
+		cout << "The transpose of matrix is:" << endl;
+		cout << *t << endl << endl;	//again: note the *
+		cout << "Multipling matrix by 0.1:" << endl;
+		cout << *t * 0.1 << endl;
 	}
 
-	delete reader;
+
+	//print all saved variables
+	cout << endl;
+	cout << "All variables:" << endl;
+	parser.printVars();
+
+
     return 0;
 }
