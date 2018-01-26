@@ -15,6 +15,7 @@ public:
 	enum fillType{zero, one, random, identity};
 	Matrix(int rows, int cols, std::string name = "");
 	Matrix(int rows, int cols, fillType ft, std::string name = "");
+	Matrix(int rows, int cols, double** array, std::string name = "");
 	Matrix(Matrix const& other);
 	Matrix& operator=(Matrix const& rhs);
 	~Matrix();
