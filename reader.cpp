@@ -7,7 +7,8 @@ Reader::Reader(std::string filepath, mode m) : readingMode(m) {
 	//that the caller specify readingMode to be console,
 	//while using this constructor that takes a filepath
 	if(readingMode != console){
-		inputFile.open(filepath);
+		ifstream inputFile;                         
+		  inputFile.open(filepath.c_str());  
 	}
 }
 
@@ -18,21 +19,26 @@ Reader::~Reader(){
 }
 
 std::string Reader::readConsole(){
-	/*
-	 * Read line from cin and return it as a string
-	 * if string == "exit", return empty string
-	 */
-	return ""; //todo remove this and implement the function
+	string s;
+	if(inputFile.is_open())
+       {
+           getline(inputFile,s);
+           if(s=="exit")
+            return "";
+           return s;
+       }
 }
 
 std::string Reader::readFile(){
-	/*
-	 * Read the whole file and return it as a string,
-	 * if not reached end of file
-	 */
+	string filestring,ss;
+	while(ss!="")
+    {
+        ss=readConsole();
+         filestring += ss;
+         filestring += '\n'; //for adding a new line between strings ss
+    }
 
-	//note inputFile is already defined and opened
-	return ""; //todo remove this and implement the function
+	return filestring;
 }
 
 std::string Reader::read(){
