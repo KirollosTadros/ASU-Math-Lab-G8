@@ -220,7 +220,7 @@ Matrix Matrix::inverse() const{
 	for(int i=0; i<rows; i++){
 		for(int j=0; j<cols; j++){
 			sign = ((i+1+j+1) % 2 == 0) ? 1 : -1;
-			cofactors.values[i][j] =  d * sign * minor(i+1, j+1).determinant();
+			cofactors.values[i][j] =  d * sign * getMinor(i+1, j+1).determinant();
 		}
 	}
 	return cofactors.transpose();
@@ -236,7 +236,7 @@ Matrix Matrix::transpose() const{
 	return result;
 }
 
-Matrix Matrix::minor(int row, int col) const{
+Matrix Matrix::getMinor(int row, int col) const{
 	/*
 	 * get the minor matrix, by removing the
 	 * given row and col,

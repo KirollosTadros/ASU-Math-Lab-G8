@@ -1,4 +1,6 @@
 #include "reader.h"
+#include <fstream>
+using namespace std;
 
 Reader::Reader() : readingMode(console) {}
 
@@ -7,8 +9,7 @@ Reader::Reader(std::string filepath, mode m) : readingMode(m) {
 	//that the caller specify readingMode to be console,
 	//while using this constructor that takes a filepath
 	if(readingMode != console){
-		ifstream inputFile;                         
-		  inputFile.open(filepath.c_str());  
+		  inputFile.open(filepath.c_str());
 	}
 }
 
@@ -31,13 +32,25 @@ std::string Reader::readConsole(){
 
 std::string Reader::readFile(){
 	string filestring,ss;
-	while(ss!="")
-    {
-        ss=readConsole();
+
+    ifstream myFile;
+    myFile.open("advexample.m");
+    while(getline(myFile,ss)){
+        ;
          filestring += ss;
          filestring += '\n'; //for adding a new line between strings ss
     }
 
+    myFile.close();
+    /*ifstream myFile;
+    myFile.open("advexample.m");
+    while(!myFile.eof()){
+    getline(myFile,filestring);
+    ss=ss+filestring;
+
+}
+*/
+filestring+='\0';
 	return filestring;
 }
 
@@ -63,3 +76,5 @@ std::string Reader::read(){
 		break;
 	}
 }
+
+

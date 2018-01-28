@@ -80,7 +80,7 @@ void test_matrix(){
 	print(x.determinant(), "det(x) = ");
 	print(y.determinant(), "det(y) = ");
 
-	print(y.minor(1, 1), "y.minor(1, 1) = ");
+//	print(y.minor(1, 1), "y.minor(1, 1) = ");
 
 
 	try{

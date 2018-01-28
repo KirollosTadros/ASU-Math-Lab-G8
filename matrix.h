@@ -35,7 +35,7 @@ public:
 	Matrix rightDiv(Matrix const& rhs) const;
 	Matrix inverse() const;
 	Matrix transpose() const;
-	Matrix minor(int row, int col) const;
+	Matrix getMinor(int row, int col) const;
 	Matrix elemMul(double scalar) const;
 	Matrix elemPow(double exponent) const;
 	double determinant() const;
