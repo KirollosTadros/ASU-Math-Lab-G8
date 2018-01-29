@@ -1,0 +1,37 @@
+#include <iostream>
+using namespace std;
+
+MyMatrix MyMatrix::eye(int rows, int columns)
+{
+if (rows!=columns)
+{ cout<< “Error”;
+}
+else{
+    size = rows;
+    my_matrix mat(size, size);
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if (i == j) {
+                mat [i][j] = 1;
+            } else {
+                mat [i][j] = 0;
+            }
+        }
+    }
+}
+    return mat;
+}
+
+MyMatrix MyMatrix::ones(int rows. int columns)
+
+{
+
+    my_matrix mat(size, size);
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+           mat [i][j] = 1;
+    }
+  }
+}
+ return mat;
+}
