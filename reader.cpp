@@ -38,7 +38,7 @@ std::string Reader::readFile(){
     while(getline(myFile,ss)){
         ;
          filestring += ss;
-         filestring += '\n'; //for adding a new line between strings ss
+         filestring += "\n"; //for adding a new line between strings ss
     }
 
     myFile.close();

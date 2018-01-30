@@ -4,9 +4,10 @@
 #include <cstddef>
 #include <iostream>
 #include<math.h>
+#include <stdlib.h>
 #include "number.h"
 #include "matrix.h"
-#include<fstream>
+#include <fstream>
 using namespace std;
 
 Parser::~Parser(){
@@ -49,29 +50,70 @@ void Parser::printVars() const{
 }
 
 void Parser::parse(std::string s){
-string str1,str;
-str1=s.substr(0,s.find('\n'));
-string temp=str1.substr(str1.find('=')+1,str1.length()-str1.find('='));
-double tempd=stod(find_brackets(solve_trig(removeSpaces(temp))));
+string temp,str;
+
 int pos=0;
-for(int i=0;i<s[i]!='\0';i++){
+string temp_new;
+int len=s.length();
+while(1){
+if(s.find('\n')!=-1)
+{
  pos=pos+s.find('\n')+1;
- if(pos>s.length())
- break;
-str=s.substr(pos,s.find('\n')-pos-1); //todo implement or remove from class
+ }
+ else if(s.find('\n')==-1){
+ pos=pos+s.find('\0')+1;
+ }
+if(pos>len)
+break;
+temp=s.substr(0,s.find('\n'));
+s=s.substr(s.find('\n')+1,s.length());
+//str=s.substr(pos,s.find('\n')-pos-1); //todo implement or remove from class
+//temp=removeSpaces(str.substr(str.find('=')+1,str.length()-str.find('=')));
+temp=removeSpaces(temp);
+
+if(temp.find("rand")!=-1){
+string rows,cols;
+rows=temp.substr(temp.find('(')+1,temp.find(',')-temp.find('(')-1);
+cols=temp.substr(temp.find(',')+1,temp.find(')')-temp.find(',')-1);
+Matrix A (stoi(rows),stoi(cols),Matrix::random,temp.substr(0,temp.find("=")));
+cout<<A<<endl;
+
+}
+else if(temp.find("zero")!=-1){
+string rows,cols;
+rows=temp.substr(temp.find('(')+1,temp.find(',')-temp.find('(')-1);
+cols=temp.substr(temp.find(',')+1,temp.find(')')-temp.find(',')-1);
+Matrix A (stoi(rows),stoi(cols),Matrix::zero,temp.substr(0,temp.find("=")));
+cout<<A<<endl;
+
+}
+else if(temp.find("one")!=-1){
+string rows,cols;
+rows=temp.substr(temp.find('(')+1,temp.find(',')-temp.find('(')-1);
+cols=temp.substr(temp.find(',')+1,temp.find(')')-temp.find(',')-1);
+Matrix A (stoi(rows),stoi(cols),Matrix::one,temp.substr(0,temp.find("=")));
+cout<<A<<endl;
+
+}
+
+else if(temp.find("eye")!=-1){
+string rows,cols;
+rows=temp.substr(temp.find('(')+1,temp.find(',')-temp.find('(')-1);
+cols=temp.substr(temp.find(',')+1,temp.find(')')-temp.find(',')-1);
+Matrix A (stoi(rows),stoi(cols),Matrix::identity,temp.substr(0,temp.find("=")));
+cout<<A<<endl;
 
 }
 }
-
 void Parser::evaluate(){
 	//todo implement or remove from class
 }
 
 
- string Parser :: find_op(string s,char c){
+ string Parser :: find_op(string s,char c){         //this function makes all operations calculations
     int flag=0,sign_flag=0;
     string final_str = s;
-    string before_str,after_str;
+    string before_str,after_str;                    //the string before and after the operation
     float result;
     int before,after;
 
@@ -157,7 +199,7 @@ return final_str;
 }
 
 
-string Parser:: find_brackets(string s){
+string Parser:: find_brackets(string s){            //this function gets the string between to brackets and sends it to inf_op to calculate it and return it back
 string final_str=s,to_rec;
 int starts,ends;
 int flag=0;
@@ -206,7 +248,7 @@ string Parser:: removeSpaces(string input)                   //remove spaces fro
   return input;
 }
 
-string Parser:: solve_trig (string s){
+string Parser:: solve_trig (string s){          //this function solve all trig functions and return the string back after solving the functions
 string trig;
 string final_str=s;
 int pos,flag=0;
