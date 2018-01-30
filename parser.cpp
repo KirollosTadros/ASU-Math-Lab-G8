@@ -68,41 +68,78 @@ if(pos>len)
 break;
 temp=s.substr(0,s.find('\n'));
 s=s.substr(s.find('\n')+1,s.length());
-//str=s.substr(pos,s.find('\n')-pos-1); //todo implement or remove from class
-//temp=removeSpaces(str.substr(str.find('=')+1,str.length()-str.find('=')));
-temp=removeSpaces(temp);
+
+
 
 if(temp.find("rand")!=-1){
+temp=removeSpaces(temp);
 string rows,cols;
 rows=temp.substr(temp.find('(')+1,temp.find(',')-temp.find('(')-1);
 cols=temp.substr(temp.find(',')+1,temp.find(')')-temp.find(',')-1);
-Matrix A (stoi(rows),stoi(cols),Matrix::random,temp.substr(0,temp.find("=")));
-cout<<A<<endl;
+Variable* A=new Matrix (stoi(rows),stoi(cols),Matrix::random,temp.substr(0,temp.find("=")));
+cout<<*A<<endl;
 
 }
 else if(temp.find("zero")!=-1){
+temp=removeSpaces(temp);
 string rows,cols;
 rows=temp.substr(temp.find('(')+1,temp.find(',')-temp.find('(')-1);
 cols=temp.substr(temp.find(',')+1,temp.find(')')-temp.find(',')-1);
-Matrix A (stoi(rows),stoi(cols),Matrix::zero,temp.substr(0,temp.find("=")));
-cout<<A<<endl;
+Variable* A=new Matrix (stoi(rows),stoi(cols),Matrix::zero,temp.substr(0,temp.find("=")));
+cout<<*A<<endl;
 
 }
 else if(temp.find("one")!=-1){
+temp=removeSpaces(temp);
 string rows,cols;
 rows=temp.substr(temp.find('(')+1,temp.find(',')-temp.find('(')-1);
 cols=temp.substr(temp.find(',')+1,temp.find(')')-temp.find(',')-1);
-Matrix A (stoi(rows),stoi(cols),Matrix::one,temp.substr(0,temp.find("=")));
-cout<<A<<endl;
+Variable* A=new Matrix  (stoi(rows),stoi(cols),Matrix::one,temp.substr(0,temp.find("=")));
+cout<<*A<<endl;
 
 }
 
 else if(temp.find("eye")!=-1){
+temp=removeSpaces(temp);
 string rows,cols;
 rows=temp.substr(temp.find('(')+1,temp.find(',')-temp.find('(')-1);
 cols=temp.substr(temp.find(',')+1,temp.find(')')-temp.find(',')-1);
-Matrix A (stoi(rows),stoi(cols),Matrix::identity,temp.substr(0,temp.find("=")));
-cout<<A<<endl;
+Variable* A=new Matrix  (stoi(rows),stoi(cols),Matrix::identity,temp.substr(0,temp.find("=")));
+cout<<*A<<endl;
+
+}
+
+else if(temp.find("eye")==-1&&temp.find("rand")==-1&&temp.find("one")==-1&&temp.find("zero")==-1){
+string new_temp=temp.substr(temp.find('=')+1,temp.length());
+int count=0;
+for (int i=0;i<new_temp.length();i++){
+if(new_temp[i]=='[')
+count++;
+}
+if(count>1){
+Variable* A= new Matrix (3,3,Matrix::identity,temp.substr(0,temp.find("=")-1));
+
+cout<<*A<<endl;
+}
+else if(count==1){
+//call old parser
+}
+for(int i=0;i<new_temp.length();i++){
+if(isalpha(new_temp[i])){
+string find=new_temp.substr(i,1);
+
+
+Variable*  result = findVar(find);
+
+	//if result is nullptr, then variable with this
+	//name does not exist
+	if(result != nullptr){
+		cout <<"name "<< new_temp[i] << endl;
+		cout << *result << endl;
+	}
+}
+
+}
 
 }
 }
