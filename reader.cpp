@@ -29,6 +29,7 @@ std::string Reader::readConsole(){
 	string s;
 	if(inputFile.is_open()){
 		getline(std::cin, s);
+		cout << s << endl;
 		if (s == "exit")
 			return "";
 		return s;
@@ -44,10 +45,8 @@ std::string Reader::readFile(){
 	 */
 	string result = "";
 	string str = "";
-	getline(inputFile, str);
-	while(str.length() != 0){
+	while(getline(inputFile, str)){
 		result +=  str + "\n";
-		getline(inputFile, str);
 	}
 	return result;
 }

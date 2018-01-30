@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
 	/*
 	 * Process the program arguments
 	 */
-
+/*
 	string filename = "";
 	//interactive mode:
 	//user can input commands from console, after
@@ -33,12 +33,13 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-
+*/
 	/*
 	 * 	Create Reader object according to
 	 * 	program arguments
 	 */
-
+    bool interactiveMode = false;
+    string filename = "advexample.m";
 	Reader* reader;
 	if(filename.length() == 0){
 		reader = new Reader();
@@ -47,7 +48,6 @@ int main(int argc, char* argv[])
 	}else{
 		reader = new Reader(filename, Reader::file);
 	}
-
 	/*
 	 * Read and parse
 	 */
@@ -55,8 +55,11 @@ int main(int argc, char* argv[])
 	string inputString;
 	inputString = reader->read();
 	while(inputString != ""){
+        //cout << ">>>>>> start loop" << endl;
 		parser.parse(inputString);
+		//cout << " >>>> parse done" << endl;
 		inputString = reader->read();
+		//cout << ">>>>>> end loop" << endl;
 	}
 
 	delete reader;

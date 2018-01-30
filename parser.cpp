@@ -64,7 +64,8 @@ if(s.find('\n')!=-1)
  else if(s.find('\n')==-1){
  pos=pos+s.find('\0')+1;
  }
-if(pos>len)
+
+if(pos>=len)
 break;
 temp=s.substr(0,s.find('\n'));
 s=s.substr(s.find('\n')+1,s.length());
@@ -111,6 +112,7 @@ cout<<*A<<endl;
 
 else if(temp.find("eye")==-1&&temp.find("rand")==-1&&temp.find("one")==-1&&temp.find("zero")==-1){
 string new_temp=temp.substr(temp.find('=')+1,temp.length());
+//cout<<new_temp<<endl;
 int count=0;
 for (int i=0;i<new_temp.length();i++){
 if(new_temp[i]=='[')

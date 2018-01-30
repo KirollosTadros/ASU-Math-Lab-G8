@@ -15,7 +15,7 @@ all: $(EXE)
 
 $(EXE): $(OBJ)
 	$(CC) $(LDFLAGS) $^ -o $(EXE)
-	
+
 $(OBJDIR)/%.o: %.cpp %.h | $(OBJDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
@@ -30,7 +30,7 @@ $(OBJDIR):
 
 .PHONY: clean
 clean:
-	rm -f $(OBJ) *.out
+	rm -f $(OBJ) $(EXE)
 
 test:
 	@echo SRC = $(SRC)
