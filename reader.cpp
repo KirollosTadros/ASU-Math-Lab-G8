@@ -1,5 +1,6 @@
 #include "reader.h"
 #include <fstream>
+#include <iostream>
 using namespace std;
 
 Reader::Reader() : readingMode(console) {}
@@ -10,6 +11,7 @@ Reader::Reader(std::string filepath, mode m) : readingMode(m) {
 	//while using this constructor that takes a filepath
 	if(readingMode != console){
 		  inputFile.open(filepath.c_str());
+		  //todo handle error opening file
 	}
 }
 
@@ -20,38 +22,34 @@ Reader::~Reader(){
 }
 
 std::string Reader::readConsole(){
+	/*
+	 * Read line from cin and return it as a string
+	 * if string == "exit", return empty string
+	 */
 	string s;
-	if(inputFile.is_open())
-       {
-           getline(inputFile,s);
-           if(s=="exit")
-            return "";
-           return s;
-       }
+	if(inputFile.is_open()){
+		getline(std::cin, s);
+		if (s == "exit")
+			return "";
+		return s;
+	}
+	return "";
 }
 
 std::string Reader::readFile(){
-	string filestring,ss;
-
-    ifstream myFile;
-    myFile.open("advexample.m");
-    while(getline(myFile,ss)){
-        ;
-         filestring += ss;
-         filestring += "\n"; //for adding a new line between strings ss
-    }
-
-    myFile.close();
-    /*ifstream myFile;
-    myFile.open("advexample.m");
-    while(!myFile.eof()){
-    getline(myFile,filestring);
-    ss=ss+filestring;
-
-}
-*/
-filestring+='\0';
-	return filestring;
+	/*
+	 * Read the whole file and return it as a string,
+	 * if not reached end of file, otherwise return
+	 * empty string
+	 */
+	string result = "";
+	string str = "";
+	getline(inputFile, str);
+	while(str.length() != 0){
+		result +=  str + "\n";
+		getline(inputFile, str);
+	}
+	return result;
 }
 
 std::string Reader::read(){

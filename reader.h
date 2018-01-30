@@ -13,11 +13,11 @@ public:
 	Reader(Reader const& other) = delete;
 	Reader& operator=(Reader const& rhs) = delete;
 	std::string read();
-	std::string readFile();
 private:
 	std::ifstream inputFile;
 	mode readingMode;
 	std::string readConsole();
+	std::string readFile();
 
 };
 

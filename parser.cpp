@@ -3,11 +3,12 @@
 #include <string>
 #include <cstddef>
 #include <iostream>
-#include<math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 #include "number.h"
 #include "matrix.h"
 #include <fstream>
+
 using namespace std;
 
 Parser::~Parser(){
@@ -105,12 +106,9 @@ cout<<A<<endl;
 
 }
 }
-void Parser::evaluate(){
-	//todo implement or remove from class
 }
 
-
- string Parser :: find_op(string s,char c){         //this function makes all operations calculations
+string Parser::find_op(string s,char c){         //this function makes all operations calculations
     int flag=0,sign_flag=0;
     string final_str = s;
     string before_str,after_str;                    //the string before and after the operation
@@ -172,7 +170,8 @@ case '/': {result = stof(before_str)/stof(after_str); break;}
 case'*': {result = stof(before_str)*stof(after_str); break;}
 case '-' :{result = stof(before_str)-stof(after_str); break;}
 case '+' :{result = stof(before_str)+stof(after_str); break;}
-default: int x=5; break;
+default:
+	break;
 }
 string result_str=to_string(result);
  final_str= s.substr(0,before)+result_str+s.substr(after+1,s.length()-after);
@@ -186,11 +185,10 @@ final_str=find_op(final_str,c);
 else{
 switch(c)
 {
-    case '^':final_str=find_op(final_str,'/');
-    case '/':final_str=find_op(final_str,'*');
-    case '*':final_str=find_op(final_str,'-');
-    case '-':final_str=find_op(final_str,'+');
-    break;
+    case '^':final_str=find_op(final_str,'/'); break;
+    case '/':final_str=find_op(final_str,'*'); break;
+    case '*':final_str=find_op(final_str,'-'); break;
+    case '-':final_str=find_op(final_str,'+'); break;
 }
 
 }
@@ -198,8 +196,7 @@ return final_str;
 
 }
 
-
-string Parser:: find_brackets(string s){            //this function gets the string between to brackets and sends it to inf_op to calculate it and return it back
+string Parser::find_brackets(string s){            //this function gets the string between to brackets and sends it to inf_op to calculate it and return it back
 string final_str=s,to_rec;
 int starts,ends;
 int flag=0;
@@ -238,9 +235,9 @@ to_rec = find_op(s,'^');
 return to_rec;
 }
 
-string Parser:: removeSpaces(string input)                   //remove spaces from the string
+string Parser::removeSpaces(string input)                   //remove spaces from the string
 {
-  int length = input.length();
+  //int length = input.length();
   for (int i = 0; input[i]!='\0'; i++) {
      if(input[i] == ' ')
         input.erase(i, 1);
@@ -248,7 +245,7 @@ string Parser:: removeSpaces(string input)                   //remove spaces fro
   return input;
 }
 
-string Parser:: solve_trig (string s){          //this function solve all trig functions and return the string back after solving the functions
+string Parser::solve_trig (string s){          //this function solve all trig functions and return the string back after solving the functions
 string trig;
 string final_str=s;
 int pos,flag=0;
@@ -275,7 +272,7 @@ final_str=solve_trig(final_str);
 return final_str;
 }
 
-string Parser :: find_inside (int pos , string s){
+string Parser::find_inside (int pos , string s){
 string trig;
 int strt,en;
 for(int i=pos;s[i]!='\0';i++){
@@ -295,7 +292,6 @@ break;
 trig=s.substr(strt+1,en-strt-1);
 return trig;
 }
-
 
 Matrix findMatrix (char c, string path){
 
@@ -333,7 +329,7 @@ float** matrix= new float* [rows];
 				if(file.length()==1)
 				{
 				myfile>>file;
-				matrix[0][0]==stof(file);
+				matrix[0][0]=stof(file);
 				flag=1;
 
 				}
@@ -485,3 +481,5 @@ delete[] matrix[i];
 delete[] matrix;*/
 
 }
+
+

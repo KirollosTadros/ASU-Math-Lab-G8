@@ -4,6 +4,7 @@
 #include <cstddef> 	//nullptr
 #include <iostream>
 #include <sstream>
+#include <cmath>
 
 
 double** Matrix::memAllocate(int rows, int cols){
@@ -90,6 +91,60 @@ Matrix::~Matrix(){
 	memDelete(values, rows);
 }
 
+Matrix Matrix::rand(int rows, int cols) {
+	double** mat = new double*[rows];
+	for(int i = 0; i < rows; i++){
+		mat[i] = new double[cols];
+	}
+	srand(time(0));
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			mat[i][j] = std::rand() % 6;
+		}
+	}
+	Matrix C(rows, cols, mat);
+	return C;
+}
+
+Matrix Matrix::zeroes(int rows, int cols) {
+	double** mat = new double*[rows];
+	for(int i = 0; i < rows; i++){
+		mat[i] = new double[cols];
+	}
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			mat[i][j] = 0;
+		}
+	}
+	Matrix C(rows, cols, mat);
+	return C;
+}
+
+Matrix Matrix::eye(int rows, int columns) {
+	int size = rows;
+	Matrix mat(size, size);
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			if (i == j) {
+				mat.setValue(i, j, 1);
+			} else {
+				mat.setValue(i, j, 0);
+			}
+		}
+	}
+	return mat;
+}
+
+Matrix Matrix::ones(int rows, int columns) {
+	int size = rows;
+	Matrix mat(size, size);
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			mat.setValue(i, j, 1);
+		}
+	}
+	return mat;
+}
 
 Matrix& Matrix::fill(fillType ft){
 	/*
@@ -98,25 +153,16 @@ Matrix& Matrix::fill(fillType ft){
 	 */
 	switch(ft){
 	case(zero):
-			fillValue(0);
+		*this = Matrix::zeroes(rows, cols);
 	break;
 	case(one):
-			fillValue(1);
+		*this = Matrix::ones(rows, cols);
 	break;
 	case(identity):
-			for(int i=0; i<rows; ++i){
-				for(int j=0; j<cols; ++j){
-					values[i][j] = (i==j) ? 1 : 0;
-				}
-			}
+		*this = Matrix::eye(rows, cols);
 	break;
 	case(random):
-			srand(time(nullptr));
-			for(int i=0; i<rows; ++i){
-				for(int j=0; j<cols; ++j){
-					values[i][j] = rand() / (double) RAND_MAX;
-				}
-			}
+		*this = Matrix::rand(rows, cols);
 	break;
 	}
 	return *this;
@@ -351,6 +397,196 @@ Matrix& Matrix::swapRows(int row1, int row2){
 }
 
 
+Matrix Matrix::sin() {
+
+	//allocate temp 2d array
+	double **c = new double *[this->rows];
+	for (int i = 0; i < this->rows; i++) {
+		c[i] = new double[this->cols];
+	}
+
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			c[i][j] = std::sin(getValue(i, j));
+		}
+	}
+	Matrix C(this->rows, this->cols, c);
+
+	//delete temp 2d array
+	for (int i = 0; i < rows; i++) {
+		delete[] c[i];
+	}
+	delete[] c;
+
+	return C;
+}
+
+Matrix Matrix::cos() {
+	double **c = new double *[this->rows];
+	for (int i = 0; i < this->rows; i++) {
+		c[i] = new double[this->cols];
+	}
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			c[i][j] = std::cos(getValue(i, j));
+		}
+	}
+	Matrix C(this->rows, this->cols, c);
+	for (int i = 0; i < rows; i++) {
+		delete[] c[i];
+	}
+	delete[] c;
+	return C;
+}
+
+Matrix Matrix::tan() {
+	double **c = new double *[this->rows];
+	for (int i = 0; i < this->rows; i++) {
+		c[i] = new double[this->cols];
+	}
+
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			c[i][j] = std::tan(getValue(i, j));
+		}
+	}
+	Matrix C(this->rows, this->cols, c);
+	for (int i = 0; i < rows; i++) {
+		delete[] c[i];
+	}
+	delete[] c;
+	return C;
+}
+
+Matrix Matrix::asin() {
+	double **c = new double *[this->rows];
+	for (int i = 0; i < this->rows; i++) {
+		c[i] = new double[this->cols];
+	}
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			c[i][j] = std::asin(getValue(i, j));
+		}
+	}
+	Matrix C(this->rows, this->cols, c);
+	for (int i = 0; i < rows; i++) {
+		delete[] c[i];
+	}
+	delete[] c;
+	return C;
+}
+
+Matrix Matrix::acos() {
+	double **c = new double *[this->rows];
+	for (int i = 0; i < this->rows; i++) {
+		c[i] = new double[this->cols];
+	}
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			c[i][j] = std::acos(getValue(i, j));
+		}
+	}
+	Matrix C(this->rows, this->cols, c);
+	for (int i = 0; i < rows; i++) {
+		delete[] c[i];
+	}
+	delete[] c;
+	return C;
+}
+
+Matrix Matrix::atan() {
+	double **c = new double *[this->rows];
+	for (int i = 0; i < this->rows; i++) {
+		c[i] = new double[this->cols];
+	}
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			c[i][j] = std::atan(getValue(i, j));
+		}
+	}
+	Matrix C(this->rows, this->cols, c);
+	for (int i = 0; i < rows; i++) {
+		delete[] c[i];
+	}
+	delete[] c;
+	return C;
+}
+
+Matrix Matrix::log() {
+	double **c = new double *[this->rows];
+	for (int i = 0; i < this->rows; i++) {
+		c[i] = new double[this->cols];
+	}
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			c[i][j] = std::log(getValue(i, j));
+		}
+	}
+	Matrix C(this->rows, this->cols, c);
+	for (int i = 0; i < rows; i++) {
+		delete[] c[i];
+	}
+	delete[] c;
+	return C;
+}
+
+Matrix Matrix::log10() {
+	double **c = new double *[this->rows];
+	for (int i = 0; i < this->rows; i++) {
+		c[i] = new double[this->cols];
+	}
+
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			c[i][j] = std::log10(getValue(i, j));
+		}
+	}
+	Matrix C(this->rows, this->cols, c);
+	for (int i = 0; i < rows; i++) {
+		delete[] c[i];
+	}
+	delete[] c;
+	return C;
+}
+
+Matrix Matrix::pow(double exponent) {
+	double **c = new double *[this->rows];
+	for (int i = 0; i < this->rows; i++) {
+		c[i] = new double[this->cols];
+	}
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			c[i][j] = std::pow(getValue(i, j), exponent);
+		}
+	}
+	Matrix C(this->rows, this->cols, c);
+	for (int i = 0; i < rows; i++) {
+		delete[] c[i];
+	}
+	delete[] c;
+	return C;
+}
+
+Matrix Matrix::sqrt() {
+	double **c = new double *[this->rows];
+	for (int i = 0; i < this->rows; i++) {
+		c[i] = new double[this->cols];
+	}
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			c[i][j] = std::sqrt(getValue(i, j));
+		}
+	}
+	Matrix C(this->rows, this->cols, c);
+	for (int i = 0; i < rows; i++) {
+		delete[] c[i];
+	}
+	delete[] c;
+	return C;
+}
+
+
+
 /*
  * Overloaded operators for Matrix operations
  */
@@ -402,3 +638,5 @@ std::ostream& operator<<(std::ostream& out, Matrix const& matrix){
 	out << matrix.getString();
 	return out;
 }
+
+

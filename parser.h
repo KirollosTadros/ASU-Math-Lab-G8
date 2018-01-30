@@ -4,9 +4,8 @@
 #include <string>
 #include <vector>
 #include "variable.h"
-#include <string>
-#include "matrix.h""
-using namespace std;
+#include "matrix.h"
+
 class Parser{
 public:
 	void parse(std::string);
@@ -15,15 +14,14 @@ public:
 	void printVars() const;
 	~Parser();
 private:
-	vector<Variable*> varList;
-	void evaluate();
-	string find_op(string s,char c);
-string find_brackets (string s);
-string removeSpaces(string input);
-string solve_trig (string s);
-string find_inside (int pos , string s);
-void matrixName(string path);
-Matrix findMatrix (char c, string path);
+	std::vector<Variable*> varList;
+	std::string find_op(std::string s,char c);
+	std::string find_brackets (std::string s);
+	std::string removeSpaces(std::string input);
+	std::string solve_trig (std::string s);
+	std::string find_inside (int pos , std::string s);
+	void matrixName(std::string path);
+	Matrix findMatrix (char c, std::string path);
 };
 
 

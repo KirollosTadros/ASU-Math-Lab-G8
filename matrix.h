@@ -24,6 +24,10 @@ public:
 	inline int getCols() const {return cols;}
 	inline double getValue(int row, int col) const {return values[row][col];}
 	inline void setValue(int row, int col, double value) {values[row][col] = value;}
+	static Matrix rand(int rows, int cols);
+	static Matrix eye(int rows, int cols);
+	static Matrix zeroes(int rows, int cols);
+	static Matrix ones(int rows, int cols);
 	Matrix& fill(fillType ft); //in-place
 	Matrix& fillValue(double value); //in-place
 	Matrix& fillPart(int row, int col, Matrix const& fillMatrix); //in-place
@@ -40,6 +44,16 @@ public:
 	Matrix elemPow(double exponent) const;
 	double determinant() const;
 	Matrix& swapRows(int row1, int row2); //in-place
+	Matrix sin();
+	Matrix cos();
+	Matrix tan();
+	Matrix asin();
+	Matrix acos();
+	Matrix atan();
+	Matrix log();
+	Matrix log10();
+	Matrix pow(double exponent);
+	Matrix sqrt();
 
 	/* Overloaded operators for Matrix operations */
 	Matrix operator+(Matrix const& rhs) const;
