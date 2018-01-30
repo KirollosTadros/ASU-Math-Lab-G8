@@ -51,6 +51,16 @@ Matrix::Matrix(int rows, int cols, double** array, std::string name)
 	}
 }
 
+Matrix::Matrix(int rows, int cols, float** array, std::string name)
+: Variable(name, Variable::matrix), rows(rows), cols(cols) {
+    values = memAllocate(rows, cols);
+	for(int i=0; i<rows; ++i){
+		for(int j=0; j<cols; ++j){
+			values[i][j] = array[i][j];
+		}
+	}
+}
+
 Matrix::Matrix(Matrix const& other) : Matrix(other.rows, other.cols) {
 	for(int i=0; i<rows; ++i){
 		for(int j=0; j<cols; ++j){

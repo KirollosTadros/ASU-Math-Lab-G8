@@ -8,6 +8,8 @@
 #include "number.h"
 #include "matrix.h"
 #include <fstream>
+#include <cctype>
+#include <sstream>
 
 using namespace std;
 
@@ -122,9 +124,11 @@ if(count>1){
 Variable* A= new Matrix (3,3,Matrix::identity,temp.substr(0,temp.find("=")-1));
 
 cout<<*A<<endl;
+cout << "asdfkl;ads";
 }
 else if(count==1){
-//call old parser
+Matrix A=findMatrix(temp[0],"advexample.m");
+cout<<A<<endl;
 }
 for(int i=0;i<new_temp.length();i++){
 if(isalpha(new_temp[i])){
@@ -141,8 +145,11 @@ Variable*  result = findVar(find);
 	}
 }
 
-}
 
+}
+if(temp.find('[')==-1){
+cout<<temp.substr(0,temp.find("=")-1)<<"= "<<find_op(find_brackets(solve_trig(removeSpaces(new_temp))),'^')<<endl;
+}
 }
 }
 }
@@ -202,6 +209,8 @@ else{
  after_str=s.substr(i+1,after-i);
 before_str=s.substr(before,i-before);
 }
+
+
 
 switch (c){
 case '^': {result = pow(stof(before_str),stof(after_str)); break;}
@@ -332,7 +341,12 @@ trig=s.substr(strt+1,en-strt-1);
 return trig;
 }
 
-Matrix findMatrix (char c, string path){
+Matrix Parser::findMatrix (char c, string path){
+
+//path is actually the whole contents of the file
+
+//stringstream myfile;
+//myfile.write(path.c_str(), path.length());
 
 string file;
 	int matrixFlag=0;
@@ -345,8 +359,8 @@ float** matrix= new float* [rows];
 
 
 		ifstream myfile;
-		int flag=0,myflag=0;
 		myfile.open(path);
+		int flag=0,myflag=0;
 
 		while(myfile>>file){
 
@@ -512,12 +526,13 @@ break;
 
 myfile.close();
 
-
-/*Matrix A (rows,cols,(double**)matrix,c);
+stringstream ss;
+ss << c;
+Matrix A (rows,cols,matrix,ss.str());
 return A;
 for (int i=0;i<cols;i++)
 delete[] matrix[i];
-delete[] matrix;*/
+delete[] matrix;
 
 }
 
