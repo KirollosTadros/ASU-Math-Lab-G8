@@ -5,8 +5,8 @@
 
 class Number : public Variable{
 public:
-	double value;
-	Number(double const value, std::string name = "") :
+	double value/**Value of Number*/;
+	Number(double const value /**<[in] value of Number*/, std::string name = ""/**<[in] name of Number*/) :
 		Variable(name, Variable::number), value(value) {}
 	operator double() {return value;}
 	std::string getString() const;

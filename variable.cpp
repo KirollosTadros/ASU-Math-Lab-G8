@@ -4,7 +4,8 @@
 
 int Variable::unnamed = 1;
 
-Variable::Variable(std::string name, VarType type) : name(name), type(type) {
+Variable::Variable(std::string name/**<[in] name of variable*/, VarType type/**<[in] type of Variable*/) : name(name), type(type) {
+
 	if(name.length() == 0){
 		std::ostringstream ss;
 		ss << "tempVar" << unnamed++;
@@ -13,6 +14,7 @@ Variable::Variable(std::string name, VarType type) : name(name), type(type) {
 };
 
 std::string Variable::getTypeString() const{
+	/**Gets type of Variable*/
 	switch(type){
 	case number:
 		return "Number";
@@ -26,9 +28,10 @@ std::string Variable::getTypeString() const{
 	default:
 		return "Unknown type string";
 	}
+	///\return Prints Variable::VarType of the Variable
 }
 
 std::ostream& operator<<(std::ostream& out, Variable const& variable){
+	/**Variable::getString()*/
 	out << variable.getString();
-	return out;
-}
+	return out;///\return prints Variable Value

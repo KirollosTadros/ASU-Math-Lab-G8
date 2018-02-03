@@ -5,7 +5,7 @@ using namespace std;
 
 Reader::Reader() : readingMode(console) {}
 
-Reader::Reader(std::string filepath, mode m) : readingMode(m) {
+Reader::Reader(std::string filepath/**<[in]path of the file*/, mode m/**<[in]mode of read*/) : readingMode(m) {
 	//although should not happen, but it's possible
 	//that the caller specify readingMode to be console,
 	//while using this constructor that takes a filepath
@@ -22,9 +22,9 @@ Reader::~Reader(){
 }
 
 std::string Reader::readConsole(){
-	/*
+	/**
 	 * Read line from cin and return it as a string
-	 * if string == "exit", return empty string
+	 *<br> if string == "exit", return empty string
 	 */
 	string s;
 	if(inputFile.is_open()){
@@ -38,9 +38,9 @@ std::string Reader::readConsole(){
 }
 
 std::string Reader::readFile(){
-	/*
+	/**
 	 * Read the whole file and return it as a string,
-	 * if not reached end of file, otherwise return
+	 *<br> if not reached end of file, otherwise return
 	 * empty string
 	 */
 	string result = "";
@@ -60,9 +60,9 @@ std::string Reader::read(){
 		return readConsole();
 		break;
 	case file_console:
-		/*
+		/**
 		 * read the whole file first, return it as a string,
-		 * then start reading from the console
+		 *<br> then start reading from the console
 		 */
 		std::string tmp = readFile();
 		if(tmp != ""){
