@@ -7,8 +7,8 @@
 #include <cmath>
 
 
-double** Matrix::memAllocate(int rows, int cols){
-	/*
+double** Matrix::memAllocate(int rows/**< [in] number of rows */, int cols/**< [in] number of columns */){
+	/**
 	 * allocates memory for 2D array (rows x cols)
 	 * of doubles
 	 */
@@ -20,7 +20,7 @@ double** Matrix::memAllocate(int rows, int cols){
 }
 
 void Matrix::memDelete(double** mem, int rows){
-	/*
+	/**
 	 * deletes memory allocated using Matrix::memAllocate()
 	 */
 	for(int i=0; i<rows; ++i){
@@ -30,18 +30,18 @@ void Matrix::memDelete(double** mem, int rows){
 }
 
 
-Matrix::Matrix(int rows, int cols, std::string name)
+Matrix::Matrix(int rows/**< [in] number of rows */, int cols/**< [in] number of columns */, std::string name/**< [in] name of matrix */)
 : Variable(name, Variable::matrix), rows(rows), cols(cols) {
 	values = memAllocate(rows, cols);
 }
 
-Matrix::Matrix(int rows, int cols, fillType ft, std::string name)
+Matrix::Matrix(int rows/**< [in] number of rows */, int cols/**< [in] number of columns */, fillType ft/**<[in] fill Type*/, std::string name/**< [in] name of matrix */)
 : Variable(name, Variable::matrix), rows(rows), cols(cols) {
 	values = memAllocate(rows, cols);
 	fill(ft);
 }
 
-Matrix::Matrix(int rows, int cols, double** array, std::string name)
+Matrix::Matrix(int rows/**< [in] number of rows */, int cols/**< [in] number of columns */, double** array/**< [in] array to be copied*/, std::string name/**< [in] name of matrix */)
 : Variable(name, Variable::matrix), rows(rows), cols(cols) {
 	values = memAllocate(rows, cols);
 	for(int i=0; i<rows; ++i){
@@ -51,7 +51,7 @@ Matrix::Matrix(int rows, int cols, double** array, std::string name)
 	}
 }
 
-Matrix::Matrix(int rows, int cols, float** array, std::string name)
+Matrix::Matrix(int rows/**< [in] number of rows */, int cols/**< [in] number of columns */, float** array/**< [in] array to be copied*/, std::string name/**< [in] name of matrix */)
 : Variable(name, Variable::matrix), rows(rows), cols(cols) {
     values = memAllocate(rows, cols);
 	for(int i=0; i<rows; ++i){
@@ -61,7 +61,7 @@ Matrix::Matrix(int rows, int cols, float** array, std::string name)
 	}
 }
 
-Matrix::Matrix(Matrix const& other) : Matrix(other.rows, other.cols) {
+Matrix::Matrix(Matrix const& other /**<[in] Matrix to be copied*/) : Matrix(other.rows, other.cols) {
 	for(int i=0; i<rows; ++i){
 		for(int j=0; j<cols; ++j){
 			values[i][j] = other.values[i][j];
@@ -70,7 +70,7 @@ Matrix::Matrix(Matrix const& other) : Matrix(other.rows, other.cols) {
 }
 
 Matrix& Matrix::operator=(Matrix const& rhs){
-	/*
+	/**
 	 * deep copies the rhs (right-hand side) matrix
 	 * to lhs matrix
 	 * Returns: lhs matrix
@@ -101,7 +101,8 @@ Matrix::~Matrix(){
 	memDelete(values, rows);
 }
 
-Matrix Matrix::rand(int rows, int cols) {
+Matrix Matrix::rand(int rows /**<[in] number of rows*/, int cols/**<[in] number of columns*/) {
+	/**Creates a Matrix of random numbers*/
 	double** mat = new double*[rows];
 	for(int i = 0; i < rows; i++){
 		mat[i] = new double[cols];
@@ -113,10 +114,11 @@ Matrix Matrix::rand(int rows, int cols) {
 		}
 	}
 	Matrix C(rows, cols, mat);
-	return C;
+	return C;///\return a Matrix
 }
 
-Matrix Matrix::zeroes(int rows, int cols) {
+Matrix Matrix::zeroes(int rows/**<[in] number of rows*/, int cols/**<[in] number of columns*/) {
+	/**Creates a Matrix of zeros*/
 	double** mat = new double*[rows];
 	for(int i = 0; i < rows; i++){
 		mat[i] = new double[cols];
@@ -127,10 +129,11 @@ Matrix Matrix::zeroes(int rows, int cols) {
 		}
 	}
 	Matrix C(rows, cols, mat);
-	return C;
+	return C;///\return a Matrix
 }
 
-Matrix Matrix::eye(int rows, int columns) {
+Matrix Matrix::eye(int rows/**<[in] number of rows*/, int columns/**<[in] number of columns*/) {
+	/**Creates a Matrix of ones on the main diagonal and zeros elsewhere*/
 	int size = rows;
 	Matrix mat(size, size);
 	for (int i = 0; i < size; i++) {
@@ -142,10 +145,11 @@ Matrix Matrix::eye(int rows, int columns) {
 			}
 		}
 	}
-	return mat;
+	return mat;///\return a Matrix
 }
 
-Matrix Matrix::ones(int rows, int columns) {
+Matrix Matrix::ones(int rows/**<[in] number of rows*/, int columns/**<[in] number of columns*/) {
+	/**Creates a Matrix of ones*/
 	int size = rows;
 	Matrix mat(size, size);
 	for (int i = 0; i < size; i++) {
@@ -153,11 +157,11 @@ Matrix Matrix::ones(int rows, int columns) {
 			mat.setValue(i, j, 1);
 		}
 	}
-	return mat;
+	return mat;///\return a Matrix
 }
 
 Matrix& Matrix::fill(fillType ft){
-	/*
+	/**
 	 * Fills the matrix with values according
 	 * to the given Matrix::fillType
 	 */
@@ -175,11 +179,11 @@ Matrix& Matrix::fill(fillType ft){
 		*this = Matrix::rand(rows, cols);
 	break;
 	}
-	return *this;
+	return *this;///\return a Matrix
 }
 
-Matrix& Matrix::fillValue(double value){
-	/*
+Matrix& Matrix::fillValue(double value /**<[in] value to fill matrix with*/){
+	/**
 	 * fills the matrix with the given (value)
 	 */
 	for(int i=0; i<rows; ++i){
@@ -187,11 +191,11 @@ Matrix& Matrix::fillValue(double value){
 			values[i][j] = value;
 		}
 	}
-	return *this;
+	return *this;///\return a Matrix
 }
 
 Matrix& Matrix::fillPart(int row, int col, Matrix const& fillMatrix){
-	/*
+	/**
 	 * Fills part of the matrix, starting at row and col, with
 	 * another fillMatrix
 	 * Returns itself
@@ -200,39 +204,31 @@ Matrix& Matrix::fillPart(int row, int col, Matrix const& fillMatrix){
 }
 
 
-/*
- * Matrix operations
- */
 
-Matrix Matrix::add(Matrix const& rhs) const{
-	/*
-	 * adds matrix to rhs and returns result as
-	 * a new matrix
-	 */
+Matrix Matrix::add(Matrix const& rhs /**<[in] Matrix to be added*/) const{
+	/**adds Matrices together*/
 	Matrix result(rows, cols);
 	for(int i=0; i<rows; ++i){
 		for(int j=0; j<cols; ++j){
 			result.values[i][j] = values[i][j] + rhs.values[i][j];
 		}
 	}
-	return result;
+	return result;///\return a new Matrix
 }
 
-Matrix Matrix::sub(Matrix const& rhs) const{
-	/*
-	 * subtracts rhs matrix from *this and returns
-	 * result as a new matrix
-	 */
+Matrix Matrix::sub(Matrix const& rhs/**<[in] Matrix to be subtracted*/) const{
+	/**subtractes Matrices together*/
 	Matrix result(rows, cols);
 	for(int i=0; i<rows; ++i){
 		for(int j=0; j<cols; ++j){
 			result.values[i][j] = values[i][j] - rhs.values[i][j];
 		}
 	}
-	return result;
+	return result;///\return a new Matrix
 }
 
-Matrix Matrix::mul(Matrix const& rhs) const{
+Matrix Matrix::mul(Matrix const& rhs/**<[in] Matrix to be multiplied*/) const{
+	/**multiplies Matrices together*/
 	Matrix result(rows, rhs.cols, zero);
 	for(int i=0; i<rows; ++i){
 		for(int j=0; j<rhs.cols; ++j){
@@ -241,21 +237,16 @@ Matrix Matrix::mul(Matrix const& rhs) const{
 			}
 		}
 	}
-	return result;
+	return result;///\return a new Matrix
 }
 
-Matrix Matrix::rightDiv(Matrix const& rhs) const{
-	/*
-	 * calculates the "Right division",
-	 * (see matlab's definition of right-division)
-	 */
-	return this->mul(rhs.inverse());
+Matrix Matrix::rightDiv(Matrix const& rhs/**<[in] Matrix to be right divided*/) const{
+	/** calculates the "Right-division", see <a href="https://www.mathworks.com/">Matlab</a>'s definition of <a href="https://www.mathworks.com/help/matlab/ref/rdivide.html">Right array division</a> */
+	return this->mul(rhs.inverse());///\return a new Matrix
 }
 
 Matrix Matrix::inverse() const{
-	/*
-	 * gets the inverse of the matrix
-	 */
+	/** Calculates the inverse of the matrix*/
 
 	//get matrix of cofactors,
 	//actually not exactly the matrix of cofactors,
@@ -279,7 +270,7 @@ Matrix Matrix::inverse() const{
 			cofactors.values[i][j] =  d * sign * getMinor(i+1, j+1).determinant();
 		}
 	}
-	return cofactors.transpose();
+	return cofactors.transpose();///\return an inversed Matrix
 }
 
 Matrix Matrix::transpose() const{
@@ -289,14 +280,12 @@ Matrix Matrix::transpose() const{
 			result.values[j][i] = values[i][j];
 		}
 	}
-	return result;
+	return result;///\return the transposed Matrix
 }
 
-Matrix Matrix::getMinor(int row, int col) const{
-	/*
-	 * get the minor matrix, by removing the
-	 * given row and col,
-	 * Note: row and col start from 1
+Matrix Matrix::getMinor(int row /**<[in] number of rows to be removed*/, int col/**<[in] number of columns to be removed*/) const{
+	/**get the minor matrix,
+	 * __Note: row and col start from 1__
 	 */
 	Matrix result(rows-1, cols-1);
 	int source_i, source_j;
@@ -310,35 +299,24 @@ Matrix Matrix::getMinor(int row, int col) const{
 	return result;
 }
 
-Matrix Matrix::elemMul(double scalar) const{
-	/*
-	 * element-wise multiplication,
-	 * Returns a new matrix where each element
-	 * is multiplied by the given scalar
-	 */
+Matrix Matrix::elemMul(double scalar/**<[in]number to be multiplied with*/) const{
+	/**element-wise multiplication with a constant number*/
 	Matrix result(*this);
 	for(int i=0; i<rows; ++i){
 		for(int j=0; j<cols; ++j){
 			result.values[i][j] *= scalar;
 		}
 	}
-	return result;
+	return result;///\return a new Matrix
 }
 
 Matrix Matrix::elemPow(double exponent) const{
-	/*
-	 * element-wise power,
-	 * Returns a new matrix where each element
-	 * is the element to the power of the
-	 * given (exponent)
-	 */
+	/**element-wise exponenial with a constant number*/
 	//TODO implement the function
 }
 
 double Matrix::determinant() const{
-	/*
-	 * calcluate determinant using Gauss elimination
-	 */
+	/**Calcluate determinant using __Gauss elimination__*/
 	if(cols == 2){
 		return values[0][0] * values[1][1] - values[0][1] * values[1][0];
 	}else if(cols == 1){
@@ -384,17 +362,12 @@ double Matrix::determinant() const{
 		for(int i=0; i<rows; i++){
 			result *= d.values[i][i];
 		}
-		return sign * result;
+		return sign * result;///\return a double-type number
 	}
 }
 
-Matrix& Matrix::swapRows(int row1, int row2){
-	/*
-	 * swaps row1 with row2 of the matrix in-place,
-	 * i.e. it modifies the matrix itself,
-	 * Note: row1 and row2 starts from 1
-	 * Returns itself
-	 */
+Matrix& Matrix::swapRows(int row1/**<[in] first row*/, int row2/**<[in] second row to be swapped with the first*/){
+	/** swaps row1 with row2 within the matrix,__Note: row1 and row2 starts from 1__*/
 	double tmp;
 	row1 -= 1;
 	row2 -= 1;
@@ -403,12 +376,12 @@ Matrix& Matrix::swapRows(int row1, int row2){
 		values[row1][j] = values[row2][j];
 		values[row2][j] = tmp;
 	}
-	return *this;
+	return *this;///\return the same Matrix after modification
 }
 
 
 Matrix Matrix::sin() {
-
+	/**element-wise sine function*/
 	//allocate temp 2d array
 	double **c = new double *[this->rows];
 	for (int i = 0; i < this->rows; i++) {
@@ -428,10 +401,11 @@ Matrix Matrix::sin() {
 	}
 	delete[] c;
 
-	return C;
+	return C;///\return a new Matrix
 }
 
 Matrix Matrix::cos() {
+	/**element-wise cosine function*/
 	double **c = new double *[this->rows];
 	for (int i = 0; i < this->rows; i++) {
 		c[i] = new double[this->cols];
@@ -446,10 +420,11 @@ Matrix Matrix::cos() {
 		delete[] c[i];
 	}
 	delete[] c;
-	return C;
+	return C;///\return a new Matrix
 }
 
 Matrix Matrix::tan() {
+	/**element-wise tangent function*/
 	double **c = new double *[this->rows];
 	for (int i = 0; i < this->rows; i++) {
 		c[i] = new double[this->cols];
@@ -465,10 +440,11 @@ Matrix Matrix::tan() {
 		delete[] c[i];
 	}
 	delete[] c;
-	return C;
+	return C;///\return a new Matrix
 }
 
 Matrix Matrix::asin() {
+	/**element-wise arcsine function*/
 	double **c = new double *[this->rows];
 	for (int i = 0; i < this->rows; i++) {
 		c[i] = new double[this->cols];
@@ -483,10 +459,11 @@ Matrix Matrix::asin() {
 		delete[] c[i];
 	}
 	delete[] c;
-	return C;
+	return C;///\return a new Matrix
 }
 
 Matrix Matrix::acos() {
+	/**element-wise arccosine function*/
 	double **c = new double *[this->rows];
 	for (int i = 0; i < this->rows; i++) {
 		c[i] = new double[this->cols];
@@ -501,10 +478,11 @@ Matrix Matrix::acos() {
 		delete[] c[i];
 	}
 	delete[] c;
-	return C;
+	return C;///\return a new Matrix
 }
 
 Matrix Matrix::atan() {
+	/**element-wise arctangent function*/
 	double **c = new double *[this->rows];
 	for (int i = 0; i < this->rows; i++) {
 		c[i] = new double[this->cols];
@@ -519,10 +497,11 @@ Matrix Matrix::atan() {
 		delete[] c[i];
 	}
 	delete[] c;
-	return C;
+	return C;///\return a new Matrix
 }
 
 Matrix Matrix::log() {
+	/**element-wise logarithm function*/
 	double **c = new double *[this->rows];
 	for (int i = 0; i < this->rows; i++) {
 		c[i] = new double[this->cols];
@@ -537,10 +516,11 @@ Matrix Matrix::log() {
 		delete[] c[i];
 	}
 	delete[] c;
-	return C;
+	return C;///\return a new Matrix
 }
 
 Matrix Matrix::log10() {
+	/**element-wise logarithm with the base of 10 function*/
 	double **c = new double *[this->rows];
 	for (int i = 0; i < this->rows; i++) {
 		c[i] = new double[this->cols];
@@ -556,10 +536,11 @@ Matrix Matrix::log10() {
 		delete[] c[i];
 	}
 	delete[] c;
-	return C;
+	return C;///\return a new Matrix
 }
 
 Matrix Matrix::pow(double exponent) {
+	/**element-wise exponenial with a constant number*/
 	double **c = new double *[this->rows];
 	for (int i = 0; i < this->rows; i++) {
 		c[i] = new double[this->cols];
@@ -574,10 +555,11 @@ Matrix Matrix::pow(double exponent) {
 		delete[] c[i];
 	}
 	delete[] c;
-	return C;
+	return C;///\return a new Matrix
 }
 
 Matrix Matrix::sqrt() {
+	/**element-wise square-root function*/
 	double **c = new double *[this->rows];
 	for (int i = 0; i < this->rows; i++) {
 		c[i] = new double[this->cols];
@@ -592,7 +574,7 @@ Matrix Matrix::sqrt() {
 		delete[] c[i];
 	}
 	delete[] c;
-	return C;
+	return C;///\return a new Matrix
 }
 
 
@@ -600,7 +582,6 @@ Matrix Matrix::sqrt() {
 /*
  * Overloaded operators for Matrix operations
  */
-
 
 Matrix Matrix::operator+(Matrix const& rhs) const{
 	return add(rhs);
@@ -627,8 +608,8 @@ Matrix Matrix::operator/(Matrix const& rhs) const{
 }
 
 
-
 std::string Matrix::getString() const{
+	/**print the Matrix*/
 	std::ostringstream ss;
 	ss << name << " = ";
 	ss << "[" << std::endl;
@@ -641,7 +622,7 @@ std::string Matrix::getString() const{
 		ss << ";";
 	}
 	ss << std::endl << "]";
-	return ss.str();
+	return ss.str();///\return a string
 }
 
 std::ostream& operator<<(std::ostream& out, Matrix const& matrix){

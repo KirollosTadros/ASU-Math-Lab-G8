@@ -12,7 +12,11 @@ private:
 	double** memAllocate(int rows, int cols);
 	void memDelete(double** mem, int rows);
 public:
-	enum fillType{zero, one, random, identity};
+	/**Fill Type for Matrix*/
+	enum fillType{zero/**<fill Matrix with zeroes()*/, 
+		one/**<fill Matrix with ones()*/, 
+		random/**<fill Matrix with rand()*/, 
+		identity/**<fill Matrix with eye()*/};
 	Matrix(int rows, int cols, std::string name = "");
 	Matrix(int rows, int cols, fillType ft, std::string name = "");
 	Matrix(int rows, int cols, double** array, std::string name = "");
