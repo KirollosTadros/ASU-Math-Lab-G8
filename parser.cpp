@@ -21,11 +21,11 @@ Parser::~Parser(){
 	}
 }
 
-void Parser::addVar(Variable* var){
+void Parser::addVar(Variable* var){		//this function adds a variable to the class
 	varList.push_back(var);
 }
 
-Variable* Parser::findVar(std::string varName) const{
+Variable* Parser::findVar(std::string varName) const{		//this function finds if the variable was previously added or no
 	if(varList.empty()){
 		return nullptr;
 	}
@@ -38,7 +38,7 @@ Variable* Parser::findVar(std::string varName) const{
 	return nullptr;
 }
 
-void Parser::printVars() const{
+void Parser::printVars() const{				//prints out added variables
 	for(auto it=varList.begin(); it!=varList.end(); ++it){
 		Variable* var = *it;
 		switch(var->getType()){
@@ -52,7 +52,7 @@ void Parser::printVars() const{
 	}
 }
 
-void Parser::parse(std::string s){
+void Parser::parse(std::string s){			//this function includes all the functions that parse from file and console
 	string temp,str;
 	int pos=0;
 	string temp_new;
@@ -317,7 +317,7 @@ string Parser::solve_trig (string s){          //this function solve all trig fu
 		return trig;
 	}
 
-Matrix Parser::findMatrix (char c, string path){
+Matrix Parser::findMatrix (char c, string path){			//find the matrix with the name in char c
 
 //path is actually the whole contents of the file
 
